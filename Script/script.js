@@ -29,16 +29,24 @@
 		}
 
 		this.moveUp = function(){
+			if(mapObjects[x/40][y/40 - 1]==0){
 			y -= speed;
+			}
 		}
 		this.moveDown = function(){
+			if(mapObjects[x/40][y/40 + 1]==0){
 			y += speed;
+			}
 		}
 		this.moveLeft = function(){
-			x -= speed;
+			if(mapObjects[x/40 - 1][y/40]==0){
+				x -= speed;
+			}
 		}
 		this.moveRight = function(){
+			if(mapObjects[x/40 + 1][y/40]==0){
 			x += speed;
+			}
 		}
 		this.clearPos = function(){
 			ctx.clearRect(x,y, heroW, heroH);
@@ -54,9 +62,27 @@
 			};
 			heroimg.src = img;
 		}
-
 	}
-	var hero = new Hero(0, 0, 40);
+	var mapObjects = [];
+	for(var i=0;i<20;i++){
+		var mapObjCol = [];
+		for(var j=0;j<15;j++){
+			if(j==0||i==0||i==19||j==14){
+				mapObjCol[j] = new mapObject('Images/undistroyable box.png',i*40,j*40, false);
+			}
+			else
+			{
+				if(i%2==0&&j%2==0){
+					mapObjCol[j] = new mapObject('Images/undistroyable box.png',i*40,j*40, false);
+				}
+				else{
+					mapObjCol[j] = 0;
+				}
+			}
+		}
+		mapObjects[i]=mapObjCol;
+	}
+	var hero = new Hero(40, 40, 40);
 	var terrain = new Terrain(0, 0);
 	window.addEventListener("keypress", function(e) {
 		switch(e.keyCode){
@@ -80,10 +106,34 @@
 				hero.moveDown();
 				break;
 			}
+			case 97: {
+				hero.clearPos();
+				hero.moveLeft();
+				break;
+			}
+			case 119: {
+				hero.clearPos();
+				hero.moveUp();
+				break;
+			}
+			case 100: {
+				hero.clearPos();
+				hero.moveRight();
+				break;
+			}
+			case 115: {
+				hero.clearPos();
+				hero.moveDown();
+				break;
+			}
 		}
 	});
 	function animationFrame(){
 		terrain.draw(ctx);
+		for(var i in mapObjects)
+			for(var j in mapObjects[i])
+				if(mapObjects[i][j]!=0)
+					mapObjects[i][j].draw(ctx);
 		hero.draw(ctx);
 		requestAnimationFrame(animationFrame);
 	}
