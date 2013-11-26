@@ -8,11 +8,11 @@
 		this.speed = speed;
 
 		this.draw = function(ctx) {
-			var imageObj = new Image();
-			imageObj.onload = function(){
-				ctx.drawImage(imageObj, x, y);
+			var heroimg = new Image();
+			heroimg.onload = function(){
+				ctx.drawImage(heroimg, x, y);
 			};
-			imageObj.src = 'Images/Dynamite ready.png';
+			heroimg.src = 'Images/Dynamite ready.png';
 		}
 
 		this.moveUp = function(){
@@ -47,7 +47,7 @@
 		}
 	});
 	function animationFrame(){
-		//ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
+		ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
 		hero.draw(ctx);
 		requestAnimationFrame(animationFrame);
 	}
