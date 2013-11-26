@@ -50,6 +50,13 @@
 		}
 		this.clearPos = function(){
 			ctx.clearRect(x,y, heroW, heroH);
+			
+			//Doesn't work as expected. Expected: draw bg image where the ninja is.
+			var bgimg = new Image();
+			bgimg.onload = function(){
+				ctx.drawImage(bgimg, x, y, heroW, heroH);
+			};
+			bgimg.src = 'Images/Background.png';
 		}
 	}
 
@@ -128,12 +135,12 @@
 			}
 		}
 	});
+	terrain.draw(ctx);
+	for(var i in mapObjects)
+		for(var j in mapObjects[i])
+			if(mapObjects[i][j]!=0)
+				mapObjects[i][j].draw(ctx);
 	function animationFrame(){
-		terrain.draw(ctx);
-		for(var i in mapObjects)
-			for(var j in mapObjects[i])
-				if(mapObjects[i][j]!=0)
-					mapObjects[i][j].draw(ctx);
 		hero.draw(ctx);
 		requestAnimationFrame(animationFrame);
 	}
