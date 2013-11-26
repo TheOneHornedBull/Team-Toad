@@ -7,7 +7,7 @@
 			var img = new Image();
 			img.onload = function(){
 				for(var i = 0; i < 15; i++){
-					for(var ii = 0; ii < 20; ii++){
+					for(var ii = 0; ii < 21; ii++){
 						ctx.drawImage(img, x+(ii*40), y, 40, 40);
 					}
 					y = i*40;
@@ -71,10 +71,10 @@
 		}
 	}
 	var mapObjects = [];
-	for(var i=0;i<20;i++){
+	for(var i=0;i<21;i++){
 		var mapObjCol = [];
 		for(var j=0;j<15;j++){
-			if(j==0||i==0||i==19||j==14){
+			if(j==0||i==0||i==20||j==14){
 				mapObjCol[j] = new mapObject('Images/undistroyable box.png',i*40,j*40, false);
 			}
 			else
