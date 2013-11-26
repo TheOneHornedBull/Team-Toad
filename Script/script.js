@@ -48,20 +48,45 @@
 			x += speed;
 			}
 		}
-		this.clearPos = function(){
+		this.clearPos = function(pos){
 			ctx.clearRect(x,y, heroW, heroH);
-			
-			//Doesn't work as expected. Expected: draw bg image where the ninja is.
-			var bgimg = new Image();
-			bgimg.onload = function(){
-				ctx.drawImage(bgimg, x, y, heroW, heroH);
-			};
-			bgimg.src = 'Images/Background.png';
+			if(pos == "up"){
+				if(mapObjects[x/40][y/40 - 1]==0){
+					var bgimg = new Image();
+					bgimg.onload = function(){
+						ctx.drawImage(bgimg, x, y+40, 40, 40);
+					}
+					bgimg.src = 'Images/Background.png';
+				}
+			} else if (pos == "down") {	
+				if(mapObjects[x/40][y/40 + 1]==0){
+					var bgimg = new Image();
+					bgimg.onload = function(){
+						ctx.drawImage(bgimg, x, y-40, 40, 40);
+					}
+					bgimg.src = 'Images/Background.png';
+				}
+			} else if (pos == "left") {
+				if(mapObjects[x/40 - 1][y/40]==0){
+					var bgimg = new Image();
+					bgimg.onload = function(){
+						ctx.drawImage(bgimg, x+40, y, 40, 40);
+					}
+					bgimg.src = 'Images/Background.png';
+				}
+			} else {
+				if(mapObjects[x/40 + 1][y/40]==0){
+					var bgimg = new Image();
+					bgimg.onload = function(){
+						ctx.drawImage(bgimg, x-40, y, 40, 40);
+					}
+					bgimg.src = 'Images/Background.png';
+				}
+			}
 		}
 	}
 
 	function mapObject(img, x, y, destroyable){
-
 		this.draw = function(ctx) {
 			var heroimg = new Image();
 			heroimg.onload = function(){
@@ -94,42 +119,42 @@
 	window.addEventListener("keypress", function(e) {
 		switch(e.keyCode){
 			case 37: {
-				hero.clearPos();
+				hero.clearPos("left");
 				hero.moveLeft();
 				break;
 			}
 			case 38: {
-				hero.clearPos();
+				hero.clearPos("up");
 				hero.moveUp();
 				break;
 			}
 			case 39: {
-				hero.clearPos();
+				hero.clearPos("right");
 				hero.moveRight();
 				break;
 			}
 			case 40: {
-				hero.clearPos();
+				hero.clearPos("down");
 				hero.moveDown();
 				break;
 			}
 			case 97: {
-				hero.clearPos();
+				hero.clearPos("left");
 				hero.moveLeft();
 				break;
 			}
 			case 119: {
-				hero.clearPos();
+				hero.clearPos("up");
 				hero.moveUp();
 				break;
 			}
 			case 100: {
-				hero.clearPos();
+				hero.clearPos("right");
 				hero.moveRight();
 				break;
 			}
 			case 115: {
-				hero.clearPos();
+				hero.clearPos("down");
 				hero.moveDown();
 				break;
 			}
