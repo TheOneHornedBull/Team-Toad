@@ -2,14 +2,18 @@
 	var canvas = document.getElementById('canvas-box'),
 		ctx = canvas.getContext("2d");
 
-	function terrain(x, y){
-		
+	function Terrain(x, y){
 		this.draw = function(ctx){
-			var heroimg = new Image();
-			heroimg.onload = function(){
-				ctx.drawImage(heroimg, x, y, 40, 40);
+			var img = new Image();
+			img.onload = function(){
+				for(var i = 0; i < 15; i++){
+					for(var ii = 0; ii < 20; ii++){
+						ctx.drawImage(img, x+(ii*40), y, 40, 40);
+					}
+					y = i*40;
+				}
 			};
-			heroimg.src = 'Images/Dynamite ready.png';
+			img.src = 'Images/Background.png';
 		}
 	}
 
@@ -21,7 +25,7 @@
 			heroimg.onload = function(){
 				ctx.drawImage(heroimg, x, y, heroW, heroH);
 			};
-			heroimg.src = 'Images/Dynamite ready.png';
+			heroimg.src = 'Images/super_ninja.png';
 		}
 
 		this.moveUp = function(){
@@ -53,7 +57,7 @@
 
 	}
 	var hero = new Hero(0, 0, 40);
-
+	var terrain = new Terrain(0, 0);
 	window.addEventListener("keypress", function(e) {
 		switch(e.keyCode){
 			case 37: {
@@ -79,6 +83,7 @@
 		}
 	});
 	function animationFrame(){
+		terrain.draw(ctx);
 		hero.draw(ctx);
 		requestAnimationFrame(animationFrame);
 	}
