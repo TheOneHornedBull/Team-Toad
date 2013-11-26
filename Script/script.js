@@ -89,7 +89,7 @@
 		this.draw = function(ctx) {
 			var heroimg = new Image();
 			heroimg.onload = function(){
-				ctx.drawImage(heroimg, x, y, heroW, heroH);
+				ctx.drawImage(heroimg, x, y, 40, 40);
 			};
 			heroimg.src = img;
 		}
@@ -107,7 +107,14 @@
 					mapObjCol[j] = new mapObject('Images/undistroyable box.png',i*40,j*40, false);
 				}
 				else{
-					mapObjCol[j] = 0;
+					var random = Math.round(Math.random());
+					if(random == 0 && (i > 2 || j > 2)){
+						mapObjCol[j] = new mapObject('Images/destroyable box.png',i*40,j*40, true);
+					}
+					else{
+						mapObjCol[j] = 0;
+					}
+
 				}
 			}
 		}
