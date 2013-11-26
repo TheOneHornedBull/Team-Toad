@@ -25,35 +25,42 @@
 		this.moveRight = function(){
 			x += speed;
 		}
-		this.clearpos = function(){
+		this.clearPos = function(){
 			ctx.clearRect(x,y, heroW, heroH);
 		}
 	}
 
-	function mapObject(x, y, destroyable){
+	function mapObject(img, x, y, destroyable){
 
+		this.draw = function(ctx) {
+			var heroimg = new Image();
+			heroimg.onload = function(){
+				ctx.drawImage(heroimg, x, y, heroW, heroH);
+			};
+			heroimg.src = img;
+		}
 	}
 	var hero = new Hero(0, 0, 40);
 
 	window.addEventListener("keypress", function(e) {
 		switch(e.keyCode){
 			case 37: {
-				hero.clearpos();
+				hero.clearPos();
 				hero.moveLeft();
 				break;
 			}
 			case 38: {
-				hero.clearpos();
+				hero.clearPos();
 				hero.moveUp();
 				break;
 			}
 			case 39: {
-				hero.clearpos();
+				hero.clearPos();
 				hero.moveRight();
 				break;
 			}
 			case 40: {
-				hero.clearpos();
+				hero.clearPos();
 				hero.moveDown();
 				break;
 			}
