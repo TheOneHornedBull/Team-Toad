@@ -49,7 +49,6 @@
 			}
 		}
 		this.clearPos = function(pos){
-			ctx.clearRect(x,y, heroW, heroH);
 			if(pos == "up"){
 				if(mapObjects[x/40][y/40 - 1]==0){
 					var bgimg = new Image();
