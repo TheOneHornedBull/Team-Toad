@@ -3,14 +3,12 @@
 		ctx = canvas.getContext("2d");
 
 	function Hero(x, y, speed) {
-		this.x = x;
-		this.y = y;
-		this.speed = speed;
-
+		heroH = 40;
+		heroW = 40;
 		this.draw = function(ctx) {
 			var heroimg = new Image();
 			heroimg.onload = function(){
-				ctx.drawImage(heroimg, x, y);
+				ctx.drawImage(heroimg, x, y, heroW, heroH);
 			};
 			heroimg.src = 'Images/Dynamite ready.png';
 		}
@@ -27,27 +25,41 @@
 		this.moveRight = function(){
 			x += speed;
 		}
+		this.clearpos = function(){
+			ctx.clearRect(x,y, heroW, heroH);
+		}
 	}
 
-	var hero = new Hero(0, 0, 45);
+	function mapObject(x, y, destroyable){
+
+	}
+	var hero = new Hero(0, 0, 40);
+
 	window.addEventListener("keypress", function(e) {
 		switch(e.keyCode){
-			case 37:
+			case 37: {
+				hero.clearpos();
 				hero.moveLeft();
 				break;
-			case 38: 
+			}
+			case 38: {
+				hero.clearpos();
 				hero.moveUp();
 				break;
-			case 39:
+			}
+			case 39: {
+				hero.clearpos();
 				hero.moveRight();
 				break;
-			case 40: 
+			}
+			case 40: {
+				hero.clearpos();
 				hero.moveDown();
 				break;
+			}
 		}
 	});
 	function animationFrame(){
-		ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
 		hero.draw(ctx);
 		requestAnimationFrame(animationFrame);
 	}
