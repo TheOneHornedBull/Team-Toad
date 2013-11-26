@@ -2,6 +2,17 @@
 	var canvas = document.getElementById('canvas-box'),
 		ctx = canvas.getContext("2d");
 
+	function terrain(x, y){
+		
+		this.draw = function(ctx){
+			var heroimg = new Image();
+			heroimg.onload = function(){
+				ctx.drawImage(heroimg, x, y, 40, 40);
+			};
+			heroimg.src = 'Images/Dynamite ready.png';
+		}
+	}
+
 	function Hero(x, y, speed) {
 		heroH = 40;
 		heroW = 40;
@@ -39,6 +50,7 @@
 			};
 			heroimg.src = img;
 		}
+
 	}
 	var hero = new Hero(0, 0, 40);
 
