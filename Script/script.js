@@ -1,7 +1,9 @@
 (function() {
-	var canvas = $('#canvas-box');
+	var canvas = $('#canvas-box'),
 		ctx = canvas.getContext("2d");
 
-	
+	function Hero() {
+		
+	}
 
 }())
