@@ -21,6 +21,9 @@
 		heroH = 40;
 		heroW = 40;
 		canImove = 1;
+		lives = 4;
+		//amIHit added in order ot avoid multiple hitting by the same dynamite
+		amIHit = 0;
 		this.draw = function(ctx) {
 			var heroimg = new Image();
 			heroimg.onload = function(){
@@ -28,24 +31,23 @@
 			};
 			heroimg.src = 'Images/super_ninja.png';
 		}
-		//will need lives here :D
 		this.moveUp = function(){
-			if(mapObjects[x/40][y/40 - 1].img == 'Images/Background.png' && canImove == 1){
+			if(mapObjects[x/40][y/40 - 1].img != 'Images/undistroyable box.png' && canImove == 1 && mapObjects[x/40][y/40 - 1].img != 'Images/destroyable box.png'){
 			y -= speed;
 			}
 		}
 		this.moveDown = function(){
-			if(mapObjects[x/40][y/40 + 1].img == 'Images/Background.png' && canImove == 1){
+			if(mapObjects[x/40][y/40 + 1].img != 'Images/undistroyable box.png' && canImove == 1 && mapObjects[x/40][y/40 + 1].img != 'Images/destroyable box.png'){
 			y += speed;
 			}
 		}
 		this.moveLeft = function(){
-			if(mapObjects[x/40 - 1][y/40].img == 'Images/Background.png' && canImove == 1){
+			if(mapObjects[x/40 -1][y/40].img != 'Images/undistroyable box.png' && canImove == 1 && mapObjects[x/40 -1][y/40].img != 'Images/destroyable box.png'){
 				x -= speed;
 			}
 		}
 		this.moveRight = function(){
-			if(mapObjects[x/40 + 1][y/40].img == 'Images/Background.png' && canImove == 1){
+			if(mapObjects[x/40 +1][y/40].img != 'Images/undistroyable box.png' && canImove == 1 && mapObjects[x/40 +1][y/40].img != 'Images/destroyable box.png'){
 			x += speed;
 			}
 		}
@@ -130,6 +132,7 @@
 						}
 						//explosion edned so if you were hit, now you can move again
 						canImove = 1;
+						amIHit = 0;
 						console.log('troll');
 				}, 1000);
 			}, 3000);
@@ -171,8 +174,14 @@
 		}
 		this.amIHitted = function(i,j){
 			//cannot move if hitted while the explosion is active
-			if((i == x/40)&&(j == y/40)){
+			if((i == x/40)&&(j == y/40)&&amIHit == 0){
 				canImove = 0;
+				amIHit = 1;
+				mapObjects[lives-1][14] = new mapObject('Images/undistroyable box.png',(lives-1)*40,14*40, false);
+				lives-=1;
+				if(lives==0)
+					//will have to do sth else but for now is ok
+					alert('GAME OVER');
 			}
 		}
 	}
@@ -190,23 +199,28 @@
 	for(var i=0;i<21;i++){
 		var mapObjCol = [];
 		for(var j=0;j<15;j++){
-			if(j==0||i==0||i==20||j==14){
-				mapObjCol[j] = new mapObject('Images/undistroyable box.png',i*40,j*40, false);
+			if(i<4 && j == 14){
+				mapObjCol[j] = new mapObject('Images/live.png',i*40,j*40, false);
 			}
-			else
-			{
-				if(i%2==0&&j%2==0){
-					mapObjCol[j] = new mapObject('Images/undistroyable box.png',i*40,j*40, false);
+			else {
+				if(j==0||i==0||i==20||j==14){
+				mapObjCol[j] = new mapObject('Images/undistroyable box.png',i*40,j*40, false);
 				}
-				else{
-					var random = Math.round(Math.random());
-					if(random == 0 && (i > 2 || j > 2)){
-						mapObjCol[j] = new mapObject('Images/destroyable box.png',i*40,j*40, true);
+				else
+				{
+					if(i%2==0&&j%2==0){
+						mapObjCol[j] = new mapObject('Images/undistroyable box.png',i*40,j*40, false);
 					}
 					else{
-						mapObjCol[j] = new mapObject('Images/Background.png',i*40,j*40, false);
-					}
+						var random = Math.round(Math.random());
+						if(random == 0 && (i > 2 || j > 2)){
+							mapObjCol[j] = new mapObject('Images/destroyable box.png',i*40,j*40, true);
+						}
+						else{
+							mapObjCol[j] = new mapObject('Images/Background.png',i*40,j*40, false);
+						}
 
+					}
 				}
 			}
 		}
