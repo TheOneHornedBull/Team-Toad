@@ -28,7 +28,7 @@
 			};
 			heroimg.src = 'Images/super_ninja.png';
 		}
-
+		//will need lives here :D
 		this.moveUp = function(){
 			if(mapObjects[x/40][y/40 - 1].img == 'Images/Background.png' && canImove == 1){
 			y -= speed;
@@ -50,9 +50,11 @@
 			}
 		}
 		this.fire = function(){
+			//create dynamite
 			var i = x/40;
 			var j = y/40;
 			mapObjects[i][j] = new mapObject('Images/Dynamite ready.png',i*40,j*40, false);
+			// 3 secs after creation --> explosion
 			setTimeout(function(){
 				for(var k=0;k<3;k++)
 				{
@@ -126,6 +128,7 @@
 								if(mapObjects[i][j+k].img == 'Images/fire_demo.png')
 									mapObjects[i][j+k] = new mapObject('Images/Background.png',i*40,(j+k)*40, false);
 						}
+						//explosion edned so if you were hit, now you can move again
 						canImove = 1;
 						console.log('troll');
 				}, 1000);
@@ -167,6 +170,7 @@
 			}
 		}
 		this.amIHitted = function(i,j){
+			//cannot move if hitted while the explosion is active
 			if((i == x/40)&&(j == y/40)){
 				canImove = 0;
 			}
@@ -262,6 +266,7 @@
 		for(var i in mapObjects){
 			for(var j in mapObjects[i]){
 					mapObjects[i][j].draw(ctx);
+					//check if hitted
 					if(mapObjects[i][j].img == 'Images/fire_demo.png')
 					hero.amIHitted(i,j);
 			}
