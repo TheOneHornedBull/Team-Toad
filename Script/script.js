@@ -32,22 +32,22 @@
 			heroimg.src = 'Images/super_ninja.png';
 		}
 		this.moveUp = function(){
-			if(mapObjects[x/40][y/40 - 1].img != 'Images/undistroyable box.png' && canImove == 1 && mapObjects[x/40][y/40 - 1].img != 'Images/destroyable box.png'){
+			if(mapObjects[x/40][y/40 - 1].img != 'Images/undistroyable box.png' && canImove == 1 && mapObjects[x/40][y/40 - 1].img != 'Images/destroyable box.png' && mapObjects[x/40][y/40 -1].img != 'Images/Dynamite ready.png'){
 			y -= speed;
 			}
 		}
 		this.moveDown = function(){
-			if(mapObjects[x/40][y/40 + 1].img != 'Images/undistroyable box.png' && canImove == 1 && mapObjects[x/40][y/40 + 1].img != 'Images/destroyable box.png'){
+			if(mapObjects[x/40][y/40 + 1].img != 'Images/undistroyable box.png' && canImove == 1 && mapObjects[x/40][y/40 + 1].img != 'Images/destroyable box.png' && mapObjects[x/40][y/40 +1].img != 'Images/Dynamite ready.png'){
 			y += speed;
 			}
 		}
 		this.moveLeft = function(){
-			if(mapObjects[x/40 -1][y/40].img != 'Images/undistroyable box.png' && canImove == 1 && mapObjects[x/40 -1][y/40].img != 'Images/destroyable box.png'){
+			if(mapObjects[x/40 -1][y/40].img != 'Images/undistroyable box.png' && canImove == 1 && mapObjects[x/40 -1][y/40].img != 'Images/destroyable box.png' && mapObjects[x/40 -1][y/40].img != 'Images/Dynamite ready.png'){
 				x -= speed;
 			}
 		}
 		this.moveRight = function(){
-			if(mapObjects[x/40 +1][y/40].img != 'Images/undistroyable box.png' && canImove == 1 && mapObjects[x/40 +1][y/40].img != 'Images/destroyable box.png'){
+			if(mapObjects[x/40 +1][y/40].img != 'Images/undistroyable box.png' && canImove == 1 && mapObjects[x/40 +1][y/40].img != 'Images/destroyable box.png' && mapObjects[x/40 +1][y/40].img != 'Images/Dynamite ready.png'){
 			x += speed;
 			}
 		}
@@ -58,7 +58,8 @@
 			mapObjects[i][j] = new mapObject('Images/Dynamite ready.png',i*40,j*40, false);
 			// 3 secs after creation --> explosion
 			setTimeout(function(){
-				for(var k=0;k<3;k++)
+				mapObjects[i][j] = new mapObject('Images/fire_c.png',i*40,j*40, false);
+				for(var k=1;k<3;k++)
 				{
 					if(j+k>=15){
 						break;
@@ -67,12 +68,12 @@
 						break;
 					}
 					if(mapObjects[i][j+k].img == 'Images/destroyable box.png'){
-						mapObjects[i][j+k] = new mapObject('Images/fire_demo.png',i*40,(j+k)*40, false);
+						mapObjects[i][j+k] = new mapObject('Images/fire_v.png',i*40,(j+k)*40, false);
 						break;
 					}
-					mapObjects[i][j+k] = new mapObject('Images/fire_demo.png',i*40,(j+k)*40, false);
+					mapObjects[i][j+k] = new mapObject('Images/fire_v.png',i*40,(j+k)*40, false);
 				}
-				for(var k=0;k<3;k++)
+				for(var k=1;k<3;k++)
 				{
 					if(j-k<0){
 						break;
@@ -81,12 +82,12 @@
 						break;
 					}
 					if(mapObjects[i][j-k].img == 'Images/destroyable box.png'){
-						mapObjects[i][j-k] = new mapObject('Images/fire_demo.png',i*40,(j-k)*40, false);
+						mapObjects[i][j-k] = new mapObject('Images/fire_v.png',i*40,(j-k)*40, false);
 						break;
 					}
-					mapObjects[i][j-k] = new mapObject('Images/fire_demo.png',i*40,(j-k)*40, false);
+					mapObjects[i][j-k] = new mapObject('Images/fire_v.png',i*40,(j-k)*40, false);
 				}
-				for(var k=0;k<3;k++)
+				for(var k=1;k<3;k++)
 				{
 					if(i+k>20){
 						break;
@@ -95,12 +96,12 @@
 						break;
 					}
 					if(mapObjects[i+k][j].img == 'Images/destroyable box.png'){
-						mapObjects[i+k][j] = new mapObject('Images/fire_demo.png',(i+k)*40,j*40, false);
+						mapObjects[i+k][j] = new mapObject('Images/fire_h.png',(i+k)*40,j*40, false);
 						break;
 					}
-					mapObjects[i+k][j] = new mapObject('Images/fire_demo.png',(i+k)*40,j*40, false);
+					mapObjects[i+k][j] = new mapObject('Images/fire_h.png',(i+k)*40,j*40, false);
 				}
-				for(var k=0;k<3;k++)
+				for(var k=1;k<3;k++)
 				{
 					if(i-k<0){
 						break;
@@ -109,27 +110,27 @@
 						break;
 					}
 					if(mapObjects[i-k][j].img == 'Images/destroyable box.png'){
-						mapObjects[i-k][j] = new mapObject('Images/fire_demo.png',(i-k)*40,j*40, false);
+						mapObjects[i-k][j] = new mapObject('Images/fire_h.png',(i-k)*40,j*40, false);
 						break;
 					}
-					mapObjects[i-k][j] = new mapObject('Images/fire_demo.png',(i-k)*40,j*40, false);
+					mapObjects[i-k][j] = new mapObject('Images/fire_h.png',(i-k)*40,j*40, false);
 				}
-				mapObjects[i][j] = new mapObject('Images/Background.png',i*40,j*40, false);
 				setTimeout(function(){
-						for(var k=0;k<3;k++){
+						for(var k=1;k<3;k++){
 							if(i-k>=0)
-								if(mapObjects[i-k][j].img == 'Images/fire_demo.png')
+								if(mapObjects[i-k][j].img == 'Images/fire_h.png')
 									mapObjects[i-k][j] = new mapObject('Images/Background.png',(i-k)*40,j*40, false);
 							if(i+k<=20)						
-								if(mapObjects[i+k][j].img == 'Images/fire_demo.png')
+								if(mapObjects[i+k][j].img == 'Images/fire_h.png')
 									mapObjects[i+k][j] = new mapObject('Images/Background.png',(i+k)*40,j*40, false);
 							if(j-k>=0)
-								if(mapObjects[i][j-k].img == 'Images/fire_demo.png')
+								if(mapObjects[i][j-k].img == 'Images/fire_v.png')
 									mapObjects[i][j-k] = new mapObject('Images/Background.png',i*40,(j-k)*40, false);
 							if(j+k<=14)	
-								if(mapObjects[i][j+k].img == 'Images/fire_demo.png')
+								if(mapObjects[i][j+k].img == 'Images/fire_v.png')
 									mapObjects[i][j+k] = new mapObject('Images/Background.png',i*40,(j+k)*40, false);
 						}
+						mapObjects[i][j] = new mapObject('Images/Background.png',i*40,j*40, false);
 						//explosion edned so if you were hit, now you can move again
 						canImove = 1;
 						amIHit = 0;
@@ -281,7 +282,7 @@
 			for(var j in mapObjects[i]){
 					mapObjects[i][j].draw(ctx);
 					//check if hitted
-					if(mapObjects[i][j].img == 'Images/fire_demo.png')
+					if(mapObjects[i][j].img == 'Images/fire_v.png' || mapObjects[i][j].img == 'Images/fire_h.png' || mapObjects[i][j].img == 'Images/fire_c.png')
 					hero.amIHitted(i,j);
 			}
 		}	
