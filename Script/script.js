@@ -276,7 +276,7 @@
 		mapObjects[i]=mapObjCol;
 	}
 	var hero = new Hero(40, 40, 40, "hero");
-	window.addEventListener("keypress", function(e) {
+	window.addEventListener("keydown", function(e) {
 		switch(e.keyCode){
 			case 37: {
 				hero.clearPos("left");
@@ -298,27 +298,7 @@
 				hero.moveDown();
 				break;
 			}
-			case 97: {
-				hero.clearPos("left");
-				hero.moveLeft();
-				break;
-			}
-			case 119: {
-				hero.clearPos("up");
-				hero.moveUp();
-				break;
-			}
-			case 100: {
-				hero.clearPos("right");
-				hero.moveRight();
-				break;
-			}
-			case 115: {
-				hero.clearPos("down");
-				hero.moveDown();
-				break;
-			}
-			default : {
+			case 32 : {
 				hero.fire(ctx);
 			}
 		}
