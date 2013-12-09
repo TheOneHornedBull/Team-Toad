@@ -26,25 +26,33 @@
 			heroimg.src = img;
 		}
 		this.moveUp = function(){
+			///onsole.log('moveUp');
 			if(mapObjects[x/40][y/40 - 1].img != 'Images/undistroyable box.png' && this.canImove == 1 && mapObjects[x/40][y/40 - 1].img != 'Images/destroyable box.png' && mapObjects[x/40][y/40 -1].img != 'Images/Dynamite ready.png' && mapObjects[x/40][y/40 -1].img != 'Images/Dynamite ready.png'){
+			this.canImove = 0;
 			y -= speed;
 			this.y -= speed;
 			}
 		}
 		this.moveDown = function(){
+			//console.log('moveDown');
 			if(mapObjects[x/40][y/40 + 1].img != 'Images/undistroyable box.png' && this.canImove == 1 && mapObjects[x/40][y/40 + 1].img != 'Images/destroyable box.png' && mapObjects[x/40][y/40 +1].img != 'Images/Dynamite ready.png' && mapObjects[x/40][y/40 +1].img != 'Images/live.png'){
+			this.canImove = 0;
 			y += speed;
 			this.y += speed;
 			}
 		}
 		this.moveLeft = function(){
+			//console.log('moveLeft');
 			if(mapObjects[x/40 -1][y/40].img != 'Images/undistroyable box.png' && this.canImove == 1 && mapObjects[x/40 -1][y/40].img != 'Images/destroyable box.png' && mapObjects[x/40 -1][y/40].img != 'Images/Dynamite ready.png' && mapObjects[x/40 -1][y/40].img != 'Images/live.png'){
+				this.canImove = 0;
 				x -= speed;
 				this.x -= speed;
 			}
 		}
 		this.moveRight = function(){
+			//console.log('moveRight');
 			if(mapObjects[x/40 +1][y/40].img != 'Images/undistroyable box.png' && this.canImove == 1 && mapObjects[x/40 +1][y/40].img != 'Images/destroyable box.png' && mapObjects[x/40 +1][y/40].img != 'Images/Dynamite ready.png' && mapObjects[x/40 +1][y/40].img != 'Images/live.png'){
+			this.canImove = 0;
 			x += speed;
 			this.x += speed;
 			}
@@ -59,39 +67,17 @@
 			}
 		}
 		this.clearPos = function(pos){
+			//console.log('clean' + pos);
 			if(pos == "up"){
-				if(mapObjects[x/40][y/40 - 1].img == 'Images/Background.png'){
-					var bgimg = new Image();
-					bgimg.onload = function(){
-						ctx.drawImage(bgimg, x, y+40, 40, 40);
-					}
-					bgimg.src = 'Images/Background.png';
-				}
-			} else if (pos == "down") {	
-				if(mapObjects[x/40][y/40 + 1].img == 'Images/Background.png'){
-					var bgimg = new Image();
-					bgimg.onload = function(){
-						ctx.drawImage(bgimg, x, y-40, 40, 40);
-					}
-					bgimg.src = 'Images/Background.png';
-				}
+				mapChange(x/40,y/40 + 1);
+			} else if (pos == "down") {
+						mapChange(x/40,y/40 - 1);
 			} else if (pos == "left") {
-				if(mapObjects[x/40 - 1][y/40].img == 'Images/Background.png'){
-					var bgimg = new Image();
-					bgimg.onload = function(){
-						ctx.drawImage(bgimg, x+40, y, 40, 40);
-					}
-					bgimg.src = 'Images/Background.png';
-				}
+					mapChange(x/40 + 1,y/40);
 			} else {
-				if(mapObjects[x/40 + 1][y/40].img == 'Images/Background.png'){
-					var bgimg = new Image();
-					bgimg.onload = function(){
-						ctx.drawImage(bgimg, x-40, y, 40, 40);
-					}
-					bgimg.src = 'Images/Background.png';
-				}
+					mapChange(x/40 - 1,y/40);
 			}
+			this.canImove = 1;
 		}
 		this.amIHitted = function(i,j){
 			//cannot move if hitted while the explosion is active
@@ -99,10 +85,14 @@
 			if((i == x/40)&&(j == y/40) && this.amIHit == 0){
 				this.canImove = 0;
 				this.amIHit = 1;
-				if(this.name == "hero")
+				if(this.name == "hero"){
 					mapObjects[lives-1][14] = new mapObject('Images/undistroyable box.png',(lives-1)*40,14*40, false);
-				if(this.name == "comp")
+					mapChange(lives-1,14);
+				}
+				if(this.name == "comp"){
 					mapObjects[21-lives][14] = new mapObject('Images/undistroyable box.png',(21-lives)*40,14*40, false);
+					mapChange(21-lives,14);
+				}
 				lives-=1;
 				if(lives==0)
 					//will have to do sth else but for now is ok
@@ -117,13 +107,18 @@
 			this.numOfDynamites += 1;
 		}
 	}
+	function mapChange(i,j){
+		mapObjects[i][j].draw(ctx);
+	}
 	function explosion(i,j,fireRange,name){
 		if(mapObjects[i][j].img != 'Images/Dynamite ready.png'){
 			mapObjects[i][j] = new mapObject('Images/Dynamite ready.png',i*40,j*40, false);
+			mapChange(i,j);
 			// 3 secs after creation of the dynamite--> explosion
  			setTimeout(function(){
 				//middle fire
 				mapObjects[i][j] = new mapObject('Images/fire_c.png',i*40,j*40, false);
+				mapChange(i,j);
 				//fire down
 				for(var k=1;k<fireRange;k++)
 				{
@@ -135,10 +130,13 @@
 					}
 					if(mapObjects[i][j+k].img == 'Images/destroyable box.png'){
 						mapObjects[i][j+k] = new mapObject('Images/fire_v.png',i*40,(j+k)*40, false);
+						mapChange(i,j+k);
 						break;
 					}
-					if(mapObjects[i][j+k].img != 'Images/Dynamite ready.png')
+					if(mapObjects[i][j+k].img != 'Images/Dynamite ready.png'){
 						mapObjects[i][j+k] = new mapObject('Images/fire_v.png',i*40,(j+k)*40, false);
+						mapChange(i,j+k);
+					}
 				}
 				//fire up
 				for(var k=1;k<fireRange;k++)
@@ -151,10 +149,13 @@
 					}
 					if(mapObjects[i][j-k].img == 'Images/destroyable box.png'){
 						mapObjects[i][j-k] = new mapObject('Images/fire_v.png',i*40,(j-k)*40, false);
+						mapChange(i,j-k);
 						break;
 					}
-					if(mapObjects[i][j-k].img != 'Images/Dynamite ready.png')
+					if(mapObjects[i][j-k].img != 'Images/Dynamite ready.png'){
 						mapObjects[i][j-k] = new mapObject('Images/fire_v.png',i*40,(j-k)*40, false);
+						mapChange(i,j-k);
+					}
 				}
 				//fire right
 				for(var k=1;k<fireRange;k++)
@@ -167,10 +168,13 @@
 					}
 					if(mapObjects[i+k][j].img == 'Images/destroyable box.png'){
 						mapObjects[i+k][j] = new mapObject('Images/fire_h.png',(i+k)*40,j*40, false);
+						mapChange(i+k,j);
 						break;
 					}
-					if(mapObjects[i+k][j].img != 'Images/Dynamite ready.png')
+					if(mapObjects[i+k][j].img != 'Images/Dynamite ready.png'){
 						mapObjects[i+k][j] = new mapObject('Images/fire_h.png',(i+k)*40,j*40, false);
+						mapChange(i+k,j);
+					}
 				}
 				//fire left
 				for(var k=1;k<fireRange;k++)
@@ -183,10 +187,13 @@
 					}
 					if(mapObjects[i-k][j].img == 'Images/destroyable box.png'){
 						mapObjects[i-k][j] = new mapObject('Images/fire_h.png',(i-k)*40,j*40, false);
+						mapChange(i-k,j);
 						break;
 					}
-					if(mapObjects[i-k][j].img != 'Images/Dynamite ready.png')
+					if(mapObjects[i-k][j].img != 'Images/Dynamite ready.png'){
 						mapObjects[i-k][j] = new mapObject('Images/fire_h.png',(i-k)*40,j*40, false);
+						mapChange(i-k,j);
+					}
 				}
 				//amount of your dynamites increases by 1
 				if(name == "hero")
@@ -199,20 +206,29 @@
 					//clear up, down, left and right
 					for(var k=1;k<fireRange;k++){
 						if(i-k>=0)
-							if(mapObjects[i-k][j].img == 'Images/fire_h.png')
+							if(mapObjects[i-k][j].img == 'Images/fire_h.png'){
 								mapObjects[i-k][j] = new mapObject('Images/Background.png',(i-k)*40,j*40, false);
+								mapChange(i-k,j);
+							}
 						if(i+k<=20)						
-							if(mapObjects[i+k][j].img == 'Images/fire_h.png')
+							if(mapObjects[i+k][j].img == 'Images/fire_h.png'){
 								mapObjects[i+k][j] = new mapObject('Images/Background.png',(i+k)*40,j*40, false);
+								mapChange(i+k,j);
+							}
 						if(j-k>=0)
-							if(mapObjects[i][j-k].img == 'Images/fire_v.png')
+							if(mapObjects[i][j-k].img == 'Images/fire_v.png'){
 								mapObjects[i][j-k] = new mapObject('Images/Background.png',i*40,(j-k)*40, false);
+								mapChange(i,j-k);
+							}
 						if(j+k<=14)	
-							if(mapObjects[i][j+k].img == 'Images/fire_v.png')
+							if(mapObjects[i][j+k].img == 'Images/fire_v.png'){
 								mapObjects[i][j+k] = new mapObject('Images/Background.png',i*40,(j+k)*40, false);
+								mapChange(i,j+k);
+							}
 					}
 					//clear middle
 					mapObjects[i][j] = new mapObject('Images/Background.png',i*40,j*40, false);
+					mapChange(i,j);
 					//explosion edned so if someone was hit, he can move again
 					for(var k=1;k<fireRange;k++){
 						if(i-k>=0){
@@ -304,23 +320,31 @@
 	window.addEventListener("keydown", function(e) {
 		switch(e.keyCode){
 			case 37: {
-				hero.clearPos("left");
-				hero.moveLeft();
+				if(mapObjects[hero.x/40 - 1][hero.y/40].img != 'Images/destroyable box.png' && mapObjects[hero.x/40 - 1][hero.y/40].img != 'Images/undistroyable box.png' && mapObjects[hero.x/40 - 1][hero.y/40].img != 'Images/live.png' && mapObjects[hero.x/40 - 1][hero.y/40].img != 'Images/Dynamite ready.png'){
+					hero.moveLeft();
+					hero.clearPos("left");
+				}
 				break;
 			}
 			case 38: {
-				hero.clearPos("up");
-				hero.moveUp();
-				break;
-			}
-			case 39: {
-				hero.clearPos("right");
-				hero.moveRight();
+				if(mapObjects[hero.x/40][hero.y/40 - 1].img != 'Images/destroyable box.png' && mapObjects[hero.x/40][hero.y/40 - 1].img != 'Images/undistroyable box.png' && mapObjects[hero.x/40][hero.y/40 - 1].img != 'Images/live.png' && mapObjects[hero.x/40][hero.y/40 - 1].img != 'Images/Dynamite ready.png'){
+					hero.moveUp();
+					hero.clearPos("up");
+				}
 				break;
 			}
 			case 40: {
-				hero.clearPos("down");
-				hero.moveDown();
+				if(mapObjects[hero.x/40][hero.y/40 + 1].img != 'Images/destroyable box.png' && mapObjects[hero.x/40][hero.y/40 + 1].img != 'Images/undistroyable box.png' && mapObjects[hero.x/40][hero.y/40 + 1].img != 'Images/live.png' && mapObjects[hero.x/40][hero.y/40 + 1].img != 'Images/Dynamite ready.png'){
+					hero.moveDown();
+					hero.clearPos("down");
+				}
+				break;
+			}
+			case 39: {
+				if(mapObjects[hero.x/40 + 1][hero.y/40].img != 'Images/destroyable box.png' && mapObjects[hero.x/40 + 1][hero.y/40].img != 'Images/undistroyable box.png' && mapObjects[hero.x/40 + 1][hero.y/40].img != 'Images/live.png' && mapObjects[hero.x/40 + 1][hero.y/40].img != 'Images/Dynamite ready.png'){
+					hero.moveRight();
+					hero.clearPos("right");
+				}
 				break;
 			}
 			case 32 : {
@@ -355,10 +379,13 @@
 	var compHerox = compHero.x/40;
 	var compHeroy = compHero.y/40;
 	var sec = 1000;
+	for(var i in mapObjects)
+			for(var j in mapObjects[i])
+					mapObjects[i][j].draw(ctx);
 	function animationFrame(){
 		for(var i in mapObjects){
 			for(var j in mapObjects[i]){
-					mapObjects[i][j].draw(ctx);
+					//mapObjects[i][j].draw(ctx);
 					//check if hitted
 					if(mapObjects[i][j].img == 'Images/fire_v.png' || mapObjects[i][j].img == 'Images/fire_h.png' || mapObjects[i][j].img == 'Images/fire_c.png'){
 						hero.amIHitted(i,j);
@@ -382,20 +409,20 @@
 			if(compHeroMove == 4 && (mapObjects[compHerox + 1][compHeroy].img == 'Images/undistroyable box.png' || mapObjects[compHerox + 1][compHeroy].img == 'Images/destroyable box.png' || mapObjects[compHerox + 1][compHeroy].img == 'Images/Dynamite ready.png' || mapObjects[compHerox + 1][compHeroy].img == 'Images/live.png'))
 				compHeroMove = selectPosition(compHero);
 			if(compHeroMove == 1){
-				compHero.clearPos("up");
 				compHero.moveUp();
+				compHero.clearPos("up");
 			}
 			if(compHeroMove == 2){
-				compHero.clearPos("left");
 				compHero.moveLeft();
+				compHero.clearPos("left");
 			}
 			if(compHeroMove == 3){
-				compHero.clearPos("down");
 				compHero.moveDown();
+				compHero.clearPos("down");
 			}
 			if(compHeroMove == 4){
-				compHero.clearPos("right");
 				compHero.moveRight();
+				compHero.clearPos("right");
 			}
 		},sec);
 		sec += 500;
