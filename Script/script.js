@@ -101,10 +101,13 @@
 			}
 		}
 		this.increaseFireRange = function(){
-			this.fireRange += 1;
+				this.fireRange += 1;
 		}
 		this.increaseDynamites = function(){
-			this.numOfDynamites += 1;
+				this.numOfDynamites += 1;
+		}
+		this.increaseLives = function(){
+				this.lives += 1;
 		}
 	}
 	function mapChange(i,j){
@@ -129,7 +132,7 @@
 						break;
 					}
 					if(mapObjects[i][j+k].img == 'Images/destroyable box.png'){
-						mapObjects[i][j+k] = new mapObject('Images/fire_v.png',i*40,(j+k)*40, false);
+						mapObjects[i][j+k] = new mapObject('Images/fire_v.png',i*40,(j+k)*40, true);
 						mapChange(i,j+k);
 						break;
 					}
@@ -148,7 +151,7 @@
 						break;
 					}
 					if(mapObjects[i][j-k].img == 'Images/destroyable box.png'){
-						mapObjects[i][j-k] = new mapObject('Images/fire_v.png',i*40,(j-k)*40, false);
+						mapObjects[i][j-k] = new mapObject('Images/fire_v.png',i*40,(j-k)*40, true);
 						mapChange(i,j-k);
 						break;
 					}
@@ -167,7 +170,7 @@
 						break;
 					}
 					if(mapObjects[i+k][j].img == 'Images/destroyable box.png'){
-						mapObjects[i+k][j] = new mapObject('Images/fire_h.png',(i+k)*40,j*40, false);
+						mapObjects[i+k][j] = new mapObject('Images/fire_h.png',(i+k)*40,j*40, true);
 						mapChange(i+k,j);
 						break;
 					}
@@ -186,7 +189,7 @@
 						break;
 					}
 					if(mapObjects[i-k][j].img == 'Images/destroyable box.png'){
-						mapObjects[i-k][j] = new mapObject('Images/fire_h.png',(i-k)*40,j*40, false);
+						mapObjects[i-k][j] = new mapObject('Images/fire_h.png',(i-k)*40,j*40, true);
 						mapChange(i-k,j);
 						break;
 					}
@@ -207,22 +210,47 @@
 					for(var k=1;k<fireRange;k++){
 						if(i-k>=0)
 							if(mapObjects[i-k][j].img == 'Images/fire_h.png'){
-								mapObjects[i-k][j] = new mapObject('Images/Background.png',(i-k)*40,j*40, false);
+								var isThereBuff = getRandomNum(1,9);
+								if(isThereBuff <= 3 && mapObjects[i-k][j].destroyable == true){
+									var buff = new Buff('Images/buff' + isThereBuff + '.png',isThereBuff);
+									mapObjects[i-k][j] = new mapObject(buff.img,(i-k)*40,j*40, false);
+								}
+								else
+									mapObjects[i-k][j] = new mapObject('Images/Background.png',(i-k)*40,j*40, false);
+								
 								mapChange(i-k,j);
 							}
 						if(i+k<=20)						
 							if(mapObjects[i+k][j].img == 'Images/fire_h.png'){
-								mapObjects[i+k][j] = new mapObject('Images/Background.png',(i+k)*40,j*40, false);
+								var isThereBuff = getRandomNum(1,9);
+								if(isThereBuff <= 3 && mapObjects[i+k][j].destroyable == true){
+									var buff = new Buff('Images/buff' + isThereBuff + '.png',isThereBuff);
+									mapObjects[i+k][j] = new mapObject(buff.img,(i+k)*40,j*40, false);
+								}
+								else
+									mapObjects[i+k][j] = new mapObject('Images/Background.png',(i+k)*40,j*40, false);
 								mapChange(i+k,j);
 							}
 						if(j-k>=0)
-							if(mapObjects[i][j-k].img == 'Images/fire_v.png'){
-								mapObjects[i][j-k] = new mapObject('Images/Background.png',i*40,(j-k)*40, false);
+							if(mapObjects[i][j-k].img == 'Images/fire_v.png'){ 
+								var isThereBuff = getRandomNum(1,9);
+								if(isThereBuff <= 3 && mapObjects[i][j-k].destroyable == true){
+									var buff = new Buff('Images/buff' + isThereBuff + '.png',isThereBuff);
+									mapObjects[i][j-k] = new mapObject(buff.img,i*40,(j-k)*40, false);
+								}
+								else
+									mapObjects[i][j-k] = new mapObject('Images/Background.png',i*40,(j-k)*40, false);
 								mapChange(i,j-k);
 							}
 						if(j+k<=14)	
 							if(mapObjects[i][j+k].img == 'Images/fire_v.png'){
-								mapObjects[i][j+k] = new mapObject('Images/Background.png',i*40,(j+k)*40, false);
+								var isThereBuff = getRandomNum(1,9);
+								if(isThereBuff <= 3 && mapObjects[i][j+k].destroyable == true){
+									var buff = new Buff('Images/buff' + isThereBuff + '.png',isThereBuff);
+									mapObjects[i][j+k] = new mapObject(buff.img,i*40,(j+k)*40, false);
+								}
+								else
+									mapObjects[i][j+k] = new mapObject('Images/Background.png',i*40,(j+k)*40, false);
 								mapChange(i,j+k);
 							}
 					}
@@ -277,6 +305,7 @@
 	}
 	function mapObject(img, x, y, destroyable){
 		this.img = img;
+		this.destroyable = destroyable;
 		this.draw = function(ctx) {
 			var heroimg = new Image();
 			heroimg.onload = function(){
@@ -284,6 +313,10 @@
 			};
 			heroimg.src = img;
 		}
+	}
+	function Buff(img,type){
+		this.img = img;
+		this.type = type;
 	}
 	var mapObjects = [];
 	for(var i=0;i<21;i++){
@@ -385,11 +418,55 @@
 	function animationFrame(){
 		for(var i in mapObjects){
 			for(var j in mapObjects[i]){
-					//mapObjects[i][j].draw(ctx);
 					//check if hitted
 					if(mapObjects[i][j].img == 'Images/fire_v.png' || mapObjects[i][j].img == 'Images/fire_h.png' || mapObjects[i][j].img == 'Images/fire_c.png'){
 						hero.amIHitted(i,j);
 						compHero.amIHitted(i,j);
+					}
+					//check if dynamite is taken
+					if(mapObjects[i][j].img == 'Images/buff1.png'){
+						if(hero.x == i*40 && hero.y == j*40){
+							hero.increaseDynamites();
+							mapObjects[i][j] = new mapObject('Images/Background.png',i*40,j*40, false);
+							mapChange(i,j);
+						}
+						if(compHero.x == i*40 && compHero.y == j*40){
+							compHero.increaseDynamites();
+							mapObjects[i][j] = new mapObject('Images/Background.png',i*40,j*40, false);
+							mapChange(i,j);
+						}
+					}
+					//check if live is taken
+					if(mapObjects[i][j].img == 'Images/buff2.png'){
+						if(hero.x == i*40 && hero.y == j*40){
+							hero.increaseLives();
+							mapObjects[i][j] = new mapObject('Images/Background.png',i*40,j*40, false);
+							mapChange(i,j);
+							//add live to the map
+							mapObjects[hero.lives - 1][14] = new mapObject('Images/live.png',(hero.lives - 1)*40,14*40, false);
+							mapChange(hero.lives - 1,14);
+						}
+						if(compHero.x == i*40 && compHero.y == j*40){
+							compHero.increaseLives();
+							mapObjects[i][j] = new mapObject('Images/Background.png',i*40,j*40, false);
+							mapChange(i,j);
+							//add live to the map
+							mapObjects[21-compHero.lives][14] = new mapObject('Images/live.png',(21-compHero.lives)*40,14*40, false);
+							mapChange(21-compHero.lives,14);
+						}
+					}
+					//check if fire buff is taken
+					if(mapObjects[i][j].img == 'Images/buff3.png'){
+						if(hero.x == i*40 && hero.y == j*40){
+							hero.increaseFireRange();
+							mapObjects[i][j] = new mapObject('Images/Background.png',i*40,j*40, false);
+							mapChange(i,j);
+						}
+						if(compHero.x == i*40 && compHero.y == j*40){
+							compHero.increaseFireRange();
+							mapObjects[i][j] = new mapObject('Images/Background.png',i*40,j*40, false);
+							mapChange(i,j);	
+						}
 					}
 			}
 		}	
