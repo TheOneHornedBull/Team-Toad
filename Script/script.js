@@ -212,8 +212,8 @@
 					for(var k=1;k<fireRange;k++){
 						if(i-k>=0)
 							if(mapObjects[i-k][j].img == 'Images/fire_h.png'){
-								//20% chance to give a buff
-								var isThereBuff = getRandomNum(1,15);
+								//33% chance to give a buff
+								var isThereBuff = getRandomNum(1,9);
 								if(isThereBuff <= 3 && mapObjects[i-k][j].destroyable == true){
 									//50% chnace to transform the live buff into another
 									var changeLive =getRandomNum(0,1);
@@ -231,8 +231,8 @@
 							}
 						if(i+k<=20)						
 							if(mapObjects[i+k][j].img == 'Images/fire_h.png'){
-								//20% chance to give a buff
-								var isThereBuff = getRandomNum(1,15);
+								//33% chance to give a buff
+								var isThereBuff = getRandomNum(1,9);
 								if(isThereBuff <= 3 && mapObjects[i+k][j].destroyable == true){
 									//50% chnace to transform the live buff into another
 									var changeLive =getRandomNum(0,1);
@@ -249,8 +249,8 @@
 							}
 						if(j-k>=0)
 							if(mapObjects[i][j-k].img == 'Images/fire_v.png'){
-								//20% chance to give a buff
-								var isThereBuff = getRandomNum(1,15);
+								//33% chance to give a buff
+								var isThereBuff = getRandomNum(1,9);
 								if(isThereBuff <= 3 && mapObjects[i][j-k].destroyable == true){
 									//50% chnace to transform the live buff into another
 									var changeLive =getRandomNum(0,1);
@@ -267,8 +267,8 @@
 							}
 						if(j+k<=14)	
 							if(mapObjects[i][j+k].img == 'Images/fire_v.png'){
-								//20% chance to give a buff
-								var isThereBuff = getRandomNum(1,15);
+								//33% chance to give a buff
+								var isThereBuff = getRandomNum(1,9);
 								if(isThereBuff <= 3 && mapObjects[i][j+k].destroyable == true){
 									//50% chnace to transform the live buff into another
 									var changeLive =getRandomNum(0,1);
