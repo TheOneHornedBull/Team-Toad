@@ -107,7 +107,9 @@
 				this.numOfDynamites += 1;
 		}
 		this.increaseLives = function(){
-				this.lives += 1;
+				//max number of lives - 7
+				if(this.lives < 7)
+					this.lives += 1;
 		}
 	}
 	function mapChange(i,j){
@@ -210,8 +212,15 @@
 					for(var k=1;k<fireRange;k++){
 						if(i-k>=0)
 							if(mapObjects[i-k][j].img == 'Images/fire_h.png'){
-								var isThereBuff = getRandomNum(1,9);
+								//20% chance to give a buff
+								var isThereBuff = getRandomNum(1,15);
 								if(isThereBuff <= 3 && mapObjects[i-k][j].destroyable == true){
+									//50% chnace to transform the live buff into another
+									var changeLive =getRandomNum(0,1);
+									if(changeLive == 1 && isThereBuff == 2){
+										while(isThereBuff == 2)
+											isThereBuff = getRandomNum(1,3);
+									}
 									var buff = new Buff('Images/buff' + isThereBuff + '.png',isThereBuff);
 									mapObjects[i-k][j] = new mapObject(buff.img,(i-k)*40,j*40, false);
 								}
@@ -222,8 +231,15 @@
 							}
 						if(i+k<=20)						
 							if(mapObjects[i+k][j].img == 'Images/fire_h.png'){
-								var isThereBuff = getRandomNum(1,9);
+								//20% chance to give a buff
+								var isThereBuff = getRandomNum(1,15);
 								if(isThereBuff <= 3 && mapObjects[i+k][j].destroyable == true){
+									//50% chnace to transform the live buff into another
+									var changeLive =getRandomNum(0,1);
+									if(changeLive == 1 && isThereBuff == 2){
+										while(isThereBuff == 2)
+											isThereBuff = getRandomNum(1,3);
+									}
 									var buff = new Buff('Images/buff' + isThereBuff + '.png',isThereBuff);
 									mapObjects[i+k][j] = new mapObject(buff.img,(i+k)*40,j*40, false);
 								}
@@ -232,9 +248,16 @@
 								mapChange(i+k,j);
 							}
 						if(j-k>=0)
-							if(mapObjects[i][j-k].img == 'Images/fire_v.png'){ 
-								var isThereBuff = getRandomNum(1,9);
+							if(mapObjects[i][j-k].img == 'Images/fire_v.png'){
+								//20% chance to give a buff
+								var isThereBuff = getRandomNum(1,15);
 								if(isThereBuff <= 3 && mapObjects[i][j-k].destroyable == true){
+									//50% chnace to transform the live buff into another
+									var changeLive =getRandomNum(0,1);
+									if(changeLive == 1 && isThereBuff == 2){
+										while(isThereBuff == 2)
+											isThereBuff = getRandomNum(1,3);
+									}
 									var buff = new Buff('Images/buff' + isThereBuff + '.png',isThereBuff);
 									mapObjects[i][j-k] = new mapObject(buff.img,i*40,(j-k)*40, false);
 								}
@@ -244,8 +267,15 @@
 							}
 						if(j+k<=14)	
 							if(mapObjects[i][j+k].img == 'Images/fire_v.png'){
-								var isThereBuff = getRandomNum(1,9);
+								//20% chance to give a buff
+								var isThereBuff = getRandomNum(1,15);
 								if(isThereBuff <= 3 && mapObjects[i][j+k].destroyable == true){
+									//50% chnace to transform the live buff into another
+									var changeLive =getRandomNum(0,1);
+									if(changeLive == 1 && isThereBuff == 2){
+										while(isThereBuff == 2)
+											isThereBuff = getRandomNum(1,3);
+									}
 									var buff = new Buff('Images/buff' + isThereBuff + '.png',isThereBuff);
 									mapObjects[i][j+k] = new mapObject(buff.img,i*40,(j+k)*40, false);
 								}
