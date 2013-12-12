@@ -4,10 +4,16 @@ html, body {
 	background-color: #000;
 	font-family: Verdana, Arial, sans-serif;
 	font-size: 16px;
+	text-align : center;
 
 }
 canvas {
 	border: 1px solid #ccc;
 	display: block;
 	margin: 20px auto;
+}
+#play, #pause{
+	width : 120px;
+	height : 50px;
+	font-size: 30px;
 }
