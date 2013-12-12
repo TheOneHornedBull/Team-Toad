@@ -1,12 +1,13 @@
 (function() {
 	var canvas = document.getElementById('canvas-box'),
 		ctx = canvas.getContext("2d");
-	var isAnimationOn = true;
+	var isAnimationOn = false;
 	var endOfGame = false;
 	//use that array to pause explosions
 	var fire = [];
 	canvas.style.display = 'none';
 	document.getElementById("pause").style.display = 'none';
+	document.getElementById("timer").style.display = 'none';
 	function getRandomNum (min, max) {
     return Math.round(Math.random() * (max - min) + min);
 	}
@@ -104,9 +105,9 @@
 				lives-=1;
 				if(lives==0){
 					//will have to do sth else but for now is ok
-					alert('Player ' + this.name + ' lost the game!');
 					endOfGame = true;
 					isAnimationOn = false;
+					endGame();
 				}
 				this.lives = lives;
 			}
@@ -230,9 +231,6 @@
 				}
 				else{
 					fire[number] = false;
-
-		console.log(fire[number]);
-		console.log(number);
 					//clear up, down, left and right
 					for(var k=1;k<fireRange;k++){
 						if(i-k>=0)
@@ -573,12 +571,37 @@
 			isAnimationOn = true;
 			canvas.style.display = 'block';
 			document.getElementById("pause").style.display = '';
+			document.getElementById("timer").style.display = '';
 			requestAnimationFrame(animationFrame);
 		}
 	}
 
 	function onButtonStopGame() {
 		isAnimationOn = false;
+	}
+	var timerDiv = document.getElementById('timer');
+	var secondsToGo = 600;
+	var minutesToGo;
+	setInterval(function(){
+		if(isAnimationOn && secondsToGo>=0){
+			minutesToGo = parseInt(secondsToGo/60);
+			var s =secondsToGo%60;
+			if(parseInt(s)<10)
+				s = '0' + s;
+			timerDiv.innerHTML = 'Time to go ' + minutesToGo + ' : ' + s;
+			secondsToGo-=1;
+		}
+	},1000);
+	function endGame(){
+		console.log(hero.lives);
+		resultDiv = document.createElement('div');
+		resultDiv.style.color = 'white';
+		resultDiv.style.fontSize = '40px';
+		if(hero.lives == 1)
+			resultDiv.innerHTML = 'Sorry you lost the game.';
+		else
+			resultDiv.innerHTML = 'Congratulations, you won ! Your score is ' + secondsToGo + ' !';
+		document.body.appendChild(resultDiv);
 	}
 	document.getElementById("play")
 		.addEventListener("click", onButtonStartGame);
