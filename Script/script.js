@@ -128,6 +128,8 @@
 		mapObjects[i][j].draw(ctx);
 	}
 	function explosion1(i,j,fireRange,name,number){
+		if(endOfGame == true)
+				return;
 		setTimeout(function(){
 				//if paused wait until unpaused
 				if(!isAnimationOn){
@@ -224,10 +226,13 @@
 		}, 3000);
 	}
 	function explosion2(i,j,fireRange,name,number){
+		if(endOfGame == true)
+			return;
 		setTimeout(function(){
+				//if the game ended, don't explod
 					//if paused wait until unpaused and wait fot the first part to be done (here the array fire[] does its main job :D)
-					if(!isAnimationOn || !fire[number]){
-						setTimeout(explosion2(i,j,fireRange,name,number),100);
+				if(!isAnimationOn || !fire[number]){
+					setTimeout(explosion2(i,j,fireRange,name,number),100);
 				}
 				else{
 					fire[number] = false;
@@ -383,36 +388,39 @@
 		this.type = type;
 	}
 	var mapObjects = [];
-	for(var i=0;i<21;i++){
-		var mapObjCol = [];
-		for(var j=0;j<15;j++){
-			if((i<4 && j == 14) || (j==14 && i>16)){
-				mapObjCol[j] = new mapObject('Images/live.png',i*40,j*40, false);
-			}
-			else {
-				if(j==0||i==0||i==20||j==14){
-				mapObjCol[j] = new mapObject('Images/undistroyable box.png',i*40,j*40, false);
+	function fillMap(mapObjects){
+		for(var i=0;i<21;i++){
+			var mapObjCol = [];
+			for(var j=0;j<15;j++){
+				if((i<4 && j == 14) || (j==14 && i>16)){
+					mapObjCol[j] = new mapObject('Images/live.png',i*40,j*40, false);
 				}
-				else
-				{
-					if(i%2==0&&j%2==0){
-						mapObjCol[j] = new mapObject('Images/undistroyable box.png',i*40,j*40, false);
+				else {
+					if(j==0||i==0||i==20||j==14){
+					mapObjCol[j] = new mapObject('Images/undistroyable box.png',i*40,j*40, false);
 					}
-					else{
-						var random = Math.round(Math.random());
-						if(random == 0 && (i > 2 || j > 2) && (i < 18 || j < 12)){
-							mapObjCol[j] = new mapObject('Images/destroyable box.png',i*40,j*40, true);
+					else
+					{
+						if(i%2==0&&j%2==0){
+							mapObjCol[j] = new mapObject('Images/undistroyable box.png',i*40,j*40, false);
 						}
 						else{
-							mapObjCol[j] = new mapObject('Images/Background.png',i*40,j*40, false);
-						}
+							var random = Math.round(Math.random());
+							if(random == 0 && (i > 2 || j > 2) && (i < 18 || j < 12)){
+								mapObjCol[j] = new mapObject('Images/destroyable box.png',i*40,j*40, true);
+							}
+							else{
+								mapObjCol[j] = new mapObject('Images/Background.png',i*40,j*40, false);
+							}
 
+						}
 					}
 				}
 			}
+			mapObjects[i] = mapObjCol;
 		}
-		mapObjects[i]=mapObjCol;
 	}
+	fillMap(mapObjects);
 	var hero = new Hero(40, 40, 40, "hero" ,'Images/super_ninja.png');
 	window.addEventListener("keydown", function(e) {
 		if(isAnimationOn){
@@ -481,6 +489,37 @@
 	for(var i in mapObjects)
 			for(var j in mapObjects[i])
 					mapObjects[i][j].draw(ctx);
+	function moveBot(){
+		if(!isAnimationOn){
+						setTimeout(moveBot,100);
+		}
+		else{
+			setInterval(function(){
+				compHerox = compHero.x/40;
+				compHeroy = compHero.y/40;
+				compHeroMove = selectPosition(compHero);
+				if(isAnimationOn){
+					if(compHeroMove == 1){
+						compHero.moveUp();
+						compHero.clearPos("up");
+					}
+					if(compHeroMove == 2){
+						compHero.moveLeft();
+						compHero.clearPos("left");
+					}
+					if(compHeroMove == 3){
+						compHero.moveDown();
+						compHero.clearPos("down");
+					}
+					if(compHeroMove == 4){
+						compHero.moveRight();
+						compHero.clearPos("right");
+					}
+				}
+			},500);
+		}
+	}
+	moveBot();
 	function animationFrame(){
 		for(var i in mapObjects){
 			for(var j in mapObjects[i]){
@@ -538,33 +577,26 @@
 		}	
 		hero.draw(ctx);
 		compHero.draw(ctx);
-		setTimeout(function(){
-			compHerox = compHero.x/40;
-			compHeroy = compHero.y/40;
-			compHeroMove = selectPosition(compHero);
-			if(isAnimationOn){
-				if(compHeroMove == 1){
-					compHero.moveUp();
-					compHero.clearPos("up");
-				}
-				if(compHeroMove == 2){
-					compHero.moveLeft();
-					compHero.clearPos("left");
-				}
-				if(compHeroMove == 3){
-					compHero.moveDown();
-					compHero.clearPos("down");
-				}
-				if(compHeroMove == 4){
-					compHero.moveRight();
-					compHero.clearPos("right");
-				}
-			}
-		},sec);
-		sec += 500;
 		if(isAnimationOn){
 			requestAnimationFrame(animationFrame);
 		}
+	}
+	function restartGame(){
+		mapObjects = [];
+		fillMap(mapObjects);
+		compHero = new Hero(760,520,40,"comp" ,'Images/super_ninja2.png');
+		sec = 1000;
+		hero = new Hero(40, 40, 40, "hero" ,'Images/super_ninja.png');
+		isAnimationOn = true;
+		endOfGame = false;
+		fire = [];
+		secondsToGo = 600;
+		document.body.removeChild(resultDiv);
+		for(var i in mapObjects)
+			for(var j in mapObjects[i])
+					mapObjects[i][j].draw(ctx);
+		document.getElementById("play").innerHTML = 'Play';
+		document.getElementById("play").style.fontSize = '30px';
 	}
 	function onButtonStartGame() {
 		if(!endOfGame){
@@ -572,10 +604,14 @@
 			canvas.style.display = 'block';
 			document.getElementById("pause").style.display = '';
 			document.getElementById("timer").style.display = '';
+			document.getElementById("info").style.display = 'none';
+			requestAnimationFrame(animationFrame);
+		}
+		if(endOfGame){
+			restartGame();
 			requestAnimationFrame(animationFrame);
 		}
 	}
-
 	function onButtonStopGame() {
 		isAnimationOn = false;
 	}
@@ -593,15 +629,17 @@
 		}
 	},1000);
 	function endGame(){
-		console.log(hero.lives);
 		resultDiv = document.createElement('div');
 		resultDiv.style.color = 'white';
 		resultDiv.style.fontSize = '40px';
+		resultDiv.id = 'result';
 		if(hero.lives == 1)
 			resultDiv.innerHTML = 'Sorry you lost the game.';
 		else
 			resultDiv.innerHTML = 'Congratulations, you won ! Your score is ' + secondsToGo + ' !';
 		document.body.appendChild(resultDiv);
+		document.getElementById("play").innerHTML = 'Play again';
+		document.getElementById("play").style.fontSize = '22px';
 	}
 	document.getElementById("play")
 		.addEventListener("click", onButtonStartGame);
