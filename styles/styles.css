@@ -5,7 +5,9 @@
 html, body {
 	margin: 0;
 	padding: 0;
+
 	background-color: #000;
+	background-image: url("../images/tree_bark.png");
 	font-family: Verdana, Arial, sans-serif;
 	font-size: 10px;
 	text-align : center;
@@ -71,19 +73,28 @@ canvas {
 	line-height: 40px;
 	margin-right: 10px;
 }
+
 /* CONTENT */
 #wreapper{
 	color: #FFF;
 	font-size: 18px;
 	width: 1000px;
 	border: 1px solid red;
-	margin: 0 auto;
+	margin: 30px auto;
+}
+#left-coll {
+	width: 745px;
+	float: left;
+}
+#right-coll {
+	float: left;
+	width: 250px;
+	margin-left: 5px;
 }
 
 
 
-
-
+/* GAME */
 #play, #pause{
 	width : 120px;
 	height : 50px;
@@ -92,4 +103,16 @@ canvas {
 #timer{
 	color:white;
 	font-size:40px;
+}
+
+
+/* FOOTER */
+#footer-box {
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background-color: rgb(130, 181, 23);
 }
