@@ -75,7 +75,7 @@ canvas {
 }
 
 /* CONTENT */
-#wreapper{
+#wrapper {
 	color: #DDD;
 	background-color: rgba(255,255,255,0.4);
 	font-size: 14px;
@@ -86,11 +86,13 @@ canvas {
 #left-coll {
 	width: 700px;
 	float: left;
+	position: relative;
 }
 #right-coll {
 	float: left;
 	width: 295px;
 	margin-left: 5px;
+	padding-bottom: 20px;
 }
 .box-title {
 	text-align: left;
@@ -108,6 +110,14 @@ canvas {
 }
 
 /* GAME */
+#start-game {
+	width: 150px;
+	height: 50px;
+	background-color: rgba(0,0,0,0.4);
+	margin-top: 50px;
+	margin-left: 300px;
+	padding: 5px;
+}
 #play, #pause{
 	width : 120px;
 	height : 50px;

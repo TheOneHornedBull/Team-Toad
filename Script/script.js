@@ -604,7 +604,9 @@
 			canvas.style.display = 'block';
 			document.getElementById("pause").style.display = '';
 			document.getElementById("timer").style.display = '';
-			document.getElementById("info").style.display = 'none';
+			document.getElementById("start-game").style.display = 'none';
+			document.getElementById("left-coll").style.width = '840px';
+			document.getElementById("right-coll").style.width = '155px';
 			requestAnimationFrame(animationFrame);
 		}
 		if(endOfGame){
