@@ -1,3 +1,7 @@
+ @font-face {
+      font-family: "Bombing";
+      src: url(fonts/Bombing.ttf)
+}
 html, body {
 	margin: 0;
 	padding: 0;
@@ -12,6 +16,35 @@ canvas {
 	display: block;
 	margin: 20px auto;
 }
+.clear {
+	clear: both;
+}
+
+/* HEADER */
+#header-box {
+	width: 100%;
+	height: 40px;
+	background-color: rgb(130, 181, 23);
+}
+#header-title {
+	padding-top: 5px;
+	width: 100px;
+	float: left;
+}
+#site-title {
+	display: block;
+	font-size: 25px;
+	font-family: "Bombing";
+	height: 25px;
+}
+#site-subtitle {
+	display: block;
+	height: 10px;
+	margin-top: -5px;
+	font-size: 10px;
+}
+
+
 #play, #pause{
 	width : 120px;
 	height : 50px;
