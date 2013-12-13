@@ -6,6 +6,7 @@
 	<script type="text/javascript" src="Script/jquery-1.10.2.min.js"></script>
 </head>
 <body>
+	<!-- HEADER -->
 	<div id="header-box">
 		<div id="header-title">
 			<a href="index.html">
@@ -18,27 +19,34 @@
 			<ul>
 				<li><a href="index.html">Home</a></li>
 				<li><a href="game.html">Play!</a></li>
-				<li><a href="howtoplay.html">Instructions</a></li>
 			</ul>
 		</div>
 		<div class="clear"></div>
 	</div>
 
+	<!-- WREAPPER -->
 	<div id="wreapper">
 		<div id="left-coll">
-			here will be the clip
+			<div class="box-title">Greetings Adventurer!</div>
+			<div id="game-trailer"></div>
 		</div>
 		<div id="right-coll">
-			Introduction to the game
+			<div class="box-title">Introduction</div>
+			Are you ready for the game of your life? If yes, you may proceed to the "Play!" section. But before that, our team want to thank you for every second you'll lose by playing this really good game!
 		</div>
-		<p>Use arrow keys to move the ninja and space to place a dynamite. You have to kill the red-brown ninja as fast as you can !!! You have 10 minutes !!!</p>
+		<!-- <p>Use arrow keys to move the ninja and space to place a dynamite. You have to kill the red-brown ninja as fast as you can !!! You have 10 minutes !!!</p> -->
+		<div class="clear"></div>
 	</div>
 
 	<canvas id="canvas-box" width="840" height="600"></canvas>
 	<button id="play">Play</button>
 	<button id="pause">Pause</button>
 	<div id="timer">Time to go : 10 : 00</div>
-	<div id="footer-box">Created by Team Toad</div>
+
+	<!-- FOOTER -->
+	<div id="footer-box">
+		Created by Team Toad
+	</div>
 	<script type="text/javascript" src="Script/script.js"></script>
 </body>
 </html>

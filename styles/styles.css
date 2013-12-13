@@ -1,16 +1,14 @@
- @font-face {
-      font-family: "Bombing";
-      src: url(fonts/Bombing.ttf)
+@font-face {
+	font-family: "Bombing";
+	src: url(fonts/Bombing.ttf)
 }
 html, body {
 	margin: 0;
 	padding: 0;
-
 	background-color: #000;
 	background-image: url("../images/tree_bark.png");
 	font-family: Verdana, Arial, sans-serif;
 	font-size: 10px;
-	text-align : center;
 }
 a {
 	text-decoration: none;
@@ -29,9 +27,11 @@ canvas {
 	width: 100%;
 	height: 40px;
 	background-color: #bcda00;
+	box-shadow: 0 0 25px #000;
 }
 #header-title {
 	padding-top: 5px;
+	padding-left: 5px;
 	width: 100px;
 	float: left;
 }
@@ -76,23 +76,36 @@ canvas {
 
 /* CONTENT */
 #wreapper{
-	color: #FFF;
-	font-size: 18px;
+	color: #DDD;
+	background-color: rgba(255,255,255,0.4);
+	font-size: 14px;
 	width: 1000px;
-	border: 1px solid red;
 	margin: 30px auto;
+	border-radius: 2px;
 }
 #left-coll {
-	width: 745px;
+	width: 700px;
 	float: left;
 }
 #right-coll {
 	float: left;
-	width: 250px;
+	width: 295px;
 	margin-left: 5px;
 }
-
-
+.box-title {
+	text-align: left;
+	width: calc(100% - 5px);
+	padding-left: 5px;
+	height: 20px;
+	color: #FFF;
+	background-color: rgba(0,0,0,0.4);
+}
+#game-trailer {
+	width: 480px;
+	height: 360px;
+	background-color: #000;
+	margin: 30px auto;
+}
 
 /* GAME */
 #play, #pause{
@@ -115,4 +128,5 @@ canvas {
 	bottom: 0;
 	left: 0;
 	background-color: rgb(130, 181, 23);
+	text-align: center;
 }
