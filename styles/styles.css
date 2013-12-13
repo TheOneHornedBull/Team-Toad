@@ -7,8 +7,11 @@ html, body {
 	padding: 0;
 	background-color: #000;
 	font-family: Verdana, Arial, sans-serif;
-	font-size: 16px;
+	font-size: 10px;
 	text-align : center;
+}
+a {
+	text-decoration: none;
 }
 canvas {
 	border: 1px solid #ccc;
@@ -30,6 +33,9 @@ canvas {
 	width: 100px;
 	float: left;
 }
+#header-title a{
+	color: #000;
+}
 #head-ninja, #head-ninja img {
 	float: right;
 	margin-right: 5px;
@@ -47,11 +53,31 @@ canvas {
 	margin-top: -5px;
 	font-size: 10px;
 }
-
+#head-menu {
+	float: right;
+	height: 40px;
+}
+#head-menu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#head-menu ul li {
+	display: inline-block;
+}
+#head-menu ul li a {
+	color: #000;
+	font-size: 14px;
+	line-height: 40px;
+	margin-right: 10px;
+}
 /* CONTENT */
 #wreapper{
 	color: #FFF;
 	font-size: 18px;
+	width: 1000px;
+	border: 1px solid red;
+	margin: 0 auto;
 }
 
 
