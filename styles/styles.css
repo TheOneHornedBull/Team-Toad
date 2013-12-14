@@ -127,8 +127,25 @@ canvas {
 	color:white;
 	font-size:20px;
 }
-
-
+.buff-box {
+	width: 155px;
+	height: 40px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	font-size: 12px;
+}
+.buff-img, .buff-img img{
+	width: 40px;
+	height: 40px;
+	float: left;
+}
+.buff-discription {
+	width: 110px;
+	float: left;
+	margin-left: 5px;
+	font-size: 12px;
+	line-height: 40px;
+}
 /* FOOTER */
 #footer-box {
 	width: 100%;
