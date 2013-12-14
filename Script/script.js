@@ -626,7 +626,7 @@
 			var s =secondsToGo%60;
 			if(parseInt(s)<10)
 				s = '0' + s;
-			timerDiv.innerHTML = 'Time to go ' + minutesToGo + ' : ' + s;
+			timerDiv.innerHTML = '<span>Time to go : </span><br><span>' + minutesToGo + ' : ' + s + '</span>';
 			secondsToGo-=1;
 		}
 	},1000);
