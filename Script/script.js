@@ -639,9 +639,9 @@
 		insideResultDiv.innerHTML = '<div class="box-title">Result</div>';
 		resultDiv.appendChild(insideResultDiv);
 		if(hero.lives == 1)
-			resultDiv.innerHTML += 'Sorry you lost the game.';
+			resultDiv.innerHTML += '<span style="color: red;">Sorry you lost the game.</span>';
 		else
-			resultDiv.innerHTML += 'Congratulations, you won ! Your score is ' + secondsToGo + ' !';
+			resultDiv.innerHTML += '<span style="color: green;">Congratulations, you won ! Your score is ' + secondsToGo + ' !</span">';
 		document.getElementById('right-coll').appendChild(resultDiv);
 		document.getElementById("play").innerHTML = 'Play again';
 		document.getElementById("play").style.fontSize = '22px';
