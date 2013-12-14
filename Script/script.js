@@ -591,7 +591,7 @@
 		endOfGame = false;
 		fire = [];
 		secondsToGo = 600;
-		document.body.removeChild(resultDiv);
+		document.getElementById('right-coll').removeChild(resultDiv);
 		for(var i in mapObjects)
 			for(var j in mapObjects[i])
 					mapObjects[i][j].draw(ctx);
@@ -633,13 +633,16 @@
 	function endGame(){
 		resultDiv = document.createElement('div');
 		resultDiv.style.color = 'white';
-		resultDiv.style.fontSize = '40px';
+		//resultDiv.style.fontSize = '20px';
 		resultDiv.id = 'result';
+		var insideResultDiv = document.createElement('div');
+		insideResultDiv.innerHTML = '<div class="box-title">Result</div>';
+		resultDiv.appendChild(insideResultDiv);
 		if(hero.lives == 1)
-			resultDiv.innerHTML = 'Sorry you lost the game.';
+			resultDiv.innerHTML += 'Sorry you lost the game.';
 		else
-			resultDiv.innerHTML = 'Congratulations, you won ! Your score is ' + secondsToGo + ' !';
-		document.body.appendChild(resultDiv);
+			resultDiv.innerHTML += 'Congratulations, you won ! Your score is ' + secondsToGo + ' !';
+		document.getElementById('right-coll').appendChild(resultDiv);
 		document.getElementById("play").innerHTML = 'Play again';
 		document.getElementById("play").style.fontSize = '22px';
 	}
